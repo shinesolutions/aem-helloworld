@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/helloworld"/>
+    <filter root="/etc/designs/helloworld">
+        <include pattern="/etc/designs/helloworld/jcr:content"/>
+    </filter>
+    <filter root="/content/helloworld"/>
+</workspaceFilter>
