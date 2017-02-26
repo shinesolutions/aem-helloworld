@@ -7,7 +7,7 @@
 
     <groupId>com.shinesolutions</groupId>
     <artifactId>aem-helloworld</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>AEM Hello World - Reactor Project</name>
@@ -18,7 +18,7 @@
       <connection>scm:git:git@github.com:shinesolutions/aem-helloworld.git</connection>
       <developerConnection>scm:git:git@github.com:shinesolutions/aem-helloworld.git</developerConnection>
       <url>https://github.com/shinesolutions/aem-helloworld</url>
-      <tag>v0.0.1</tag>
+      <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
