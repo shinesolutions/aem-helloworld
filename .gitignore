@@ -25,3 +25,7 @@ maven-eclipse.xml
 
 cq5dam.*
 generated
+
+# Ignore Maven release artifacts
+pom.xml.releaseBackup
+release.properties
