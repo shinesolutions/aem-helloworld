@@ -2,7 +2,9 @@
 
 ## Content
 
-This project will provide a single authorable page at `/content/helloworld`.
+This project is an AEM package that must be deployed on the author instance and its respective publish instances. 
+ 
+ It will provide a single authorable page at `/content/helloworld`.
 
 ## Building
 
