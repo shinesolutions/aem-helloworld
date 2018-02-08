@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:allowedTemplates="[/apps/helloworld/templates/.*,/conf/helloworld/settings/wcm/templates/.*]"
+        cq:designPath="/etc/designs/helloworld"
+        cq:deviceGroups="[/etc/mobile/groups/responsive]"
+        cq:lastReplicated="{Date}2018-02-02T15:54:17.083+11:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="My Cafe Project"
+        sling:redirect="true"
+        sling:redirectStatus="{Long}302"
+        sling:resourceType="foundation/components/redirect"
+        redirectTarget="/content/my-cafe-project/welcome"/>
+    <welcome/>
+    <reservation/>
+</jcr:root>

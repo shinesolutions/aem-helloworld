@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:TabPanel"
+    activeTab="0"
+    helpPath="en/cq/current/wcm/default_components.html#Text Image"
+    xtype="tabpanel">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <tab3
+            jcr:primaryType="cq:Widget"
+            title="Text Details"
+            xtype="panel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <headingText
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Heading Text"
+                    name="./heroText/jcr:Heading"
+                    xtype="textfield"/>
+                <description
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Description"
+                    name="./heroText/jcr:description"
+                    xtype="textarea"/>
+            </items>
+        </tab3>
+        <tab4
+            jcr:primaryType="cq:Widget"
+            xtype="componentstyles"/>
+    </items>
+</jcr:root>

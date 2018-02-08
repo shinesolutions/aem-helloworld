@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2018-02-08T10:21:29.096+11:00"
+        cq:lastModifiedBy="admin"
+        cq:template="/conf/helloworld/settings/wcm/templates/landing-page-template"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Welcome"
+        sling:resourceType="helloworld/components/page/cafe-basepage">
+        <root
+            jcr:lastModified="{Date}2018-02-01T12:04:03.964+11:00"
+            jcr:lastModifiedBy="admin"
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="wcm/foundation/components/responsivegrid">
+            <responsivegrid
+                jcr:created="{Date}2018-02-01T12:04:15.351+11:00"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2018-02-01T12:06:47.215+11:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="wcm/foundation/components/responsivegrid">
+                <imagedescription
+                    jcr:created="{Date}2018-02-07T15:40:21.186+11:00"
+                    jcr:createdBy="admin"
+                    jcr:Heading="About Us"
+                    jcr:lastModified="{Date}2018-02-08T10:21:29.087+11:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="helloworld/components/content/imagedescription"
+                    alignment="left"
+                    textIsRich="true"
+                    textnew="&lt;p style=&quot;text-align: left;&quot;>&amp;nbsp; &amp;nbsp; &amp;nbsp; We are so much more than a cafe&lt;/p>&#xd;&#xa;&lt;ul>&#xd;&#xa;&lt;li>Our gourmet cafeteria serves an ever-changing selection of custom Coffee.&lt;/li>&#xd;&#xa;&lt;li>Our bakery specializes in fresh baked hearth breads and wonderful cakes, tortes, and cupcakes.&lt;/li>&#xd;&#xa;&lt;li>Our pizza and wine bar serves creative pizzas and crostini with an extensive list of wines by the glass.&lt;/li>&#xd;&#xa;&lt;/ul>&#xd;&#xa;">
+                    <image
+                        jcr:lastModified="{Date}2018-02-08T10:21:29.087+11:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="wcm/foundation/components/image"
+                        fileName="coffee.jpg"
+                        height="450"
+                        width="450">
+                        <file/>
+                    </image>
+                </imagedescription>
+                <heroimage
+                    jcr:created="{Date}2018-02-07T15:46:53.101+11:00"
+                    jcr:createdBy="admin"
+                    jcr:lastModified="{Date}2018-02-08T02:46:16.846+11:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="helloworld/components/content/heroimage"
+                    fileName="aboutus.jpg"
+                    heading="Pricing"
+                    introText="Affordable Pricing">
+                    <file/>
+                </heroimage>
+                <imagedescription_575577880
+                    jcr:created="{Date}2018-02-07T16:02:17.806+11:00"
+                    jcr:createdBy="admin"
+                    jcr:Heading="OUR MENU"
+                    jcr:lastModified="{Date}2018-02-08T10:20:44.620+11:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="my-restaurant-demo/components/content/imagedescription"
+                    alignment="left"
+                    textIsRich="true"
+                    textnew="&lt;p>We love the smell of fresh baked bread. Each loaf is handmade at the crack of dawn, using only the simplest of ingredients to bring out smells and flavors that beckon the whole block. Stop by anytime and experience simplicity at its finest.&lt;br />&#xd;&#xa;&lt;/p>&#xd;&#xa;">
+                    <image
+                        jcr:lastModified="{Date}2018-02-08T10:20:44.620+11:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="wcm/foundation/components/image"
+                        fileName="bread.jpg"
+                        height="450"
+                        width="450">
+                        <file/>
+                    </image>
+                </imagedescription_575577880>
+            </responsivegrid>
+        </root>
+    </jcr:content>
+</jcr:root>
