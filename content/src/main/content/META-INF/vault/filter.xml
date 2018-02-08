@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
     <filter root="/apps/helloworld"/>
+    <filter root="/conf/helloworld" mode="merge"/>
+    <filter root="/etc/clientlibs/helloworld"/>
     <filter root="/etc/designs/helloworld">
         <include pattern="/etc/designs/helloworld/jcr:content"/>
     </filter>
     <filter root="/content/helloworld"/>
+    <filter root="/content/my-cafe-project"/>
 </workspaceFilter>
