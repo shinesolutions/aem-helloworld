@@ -1,3 +1,5 @@
+[![Vulnerabilities Status](https://snyk.io/test/github/shinesolutions/aem-helloworld/badge.svg)](https://snyk.io/test/github/shinesolutions/aem-helloworld)
+
 # AEM Hello World
 
 ## Content
