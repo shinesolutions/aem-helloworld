@@ -13,7 +13,7 @@
         sling:redirect="true"
         sling:redirectStatus="{Long}302"
         sling:resourceType="foundation/components/redirect"
-        redirectTarget="/content/my-cafe-project/welcome"/>
+        redirectTarget="/content/helloworld/welcome"/>
     <welcome/>
     <reservation/>
 </jcr:root>

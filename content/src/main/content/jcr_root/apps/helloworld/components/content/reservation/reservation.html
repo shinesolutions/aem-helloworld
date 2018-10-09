@@ -1,0 +1,80 @@
+<form class="form-horizontal">
+    <fieldset>
+
+        <legend>Make a Reservation</legend>
+
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="textinput">First Name</label>
+            <div class="col-md-4">
+                <input id="textinput" name="textinput" type="text" placeholder="First name"
+                       class="form-control input-md" required="">
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="lastname">Last Name</label>
+            <div class="col-md-4">
+                <input id="lastname" name="lastname" type="text" placeholder="Last Name" class="form-control input-md"
+                       required="">
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="phone">Phone Number</label>
+            <div class="col-md-4">
+                <input id="phone" name="phone" type="text" placeholder="(XX) XXXX XXXX" class="form-control input-md" required="">
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4 control-label">Day</label>
+            <div class="col-md-4">
+                <label class="radio-inline" for="day-0">
+                    <input type="radio" name="day" id="day-0" value="Friday" checked="checked">
+                    Friday
+                </label>
+                <label class="radio-inline" for="day-1">
+                    <input type="radio" name="day" id="day-1" value="Saturday">
+                    Saturday
+                </label>
+                <label class="radio-inline" for="day-2">
+                    <input type="radio" name="day" id="day-2" value="Sunday">
+                    Sunday
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4 control-label">Time</label>
+            <div class="col-md-4">
+                <label class="radio-inline" for="time-0">
+                    <input type="radio" name="time" id="time-0" value="6" checked="checked">
+                    6PM
+                </label>
+                <label class="radio-inline" for="time-1">
+                    <input type="radio" name="time" id="time-1" value="7">
+                    7PM
+                </label>
+                <label class="radio-inline" for="time-2">
+                    <input type="radio" name="time" id="time-2" value="8">
+                    8PM
+                </label>
+                <label class="radio-inline" for="time-3">
+                    <input type="radio" name="time" id="time-3" value="9">
+                    9PM
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4 control-label"></label>
+            <div class="col-md-4">
+                <button id="submit" type="submit" name="submit" class="btn btn-default">Submit</button>
+            </div>
+        </div>
+
+    </fieldset>
+</form>
