@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:designPath="/etc/designs/helloworld"
+        cq:lastModified="{Date}2018-10-10T09:30:51.983+11:00"
+        cq:lastModifiedBy="admin"
+        cq:template="/apps/helloworld/templates/blank-page-template"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Reservation"
+        sling:resourceType="helloworld/components/page/cafe-basepage">
+        <root
+            jcr:lastModified="{Date}2018-02-08T13:12:13.211+11:00"
+            jcr:lastModifiedBy="admin"
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="wcm/foundation/components/responsivegrid">
+            <navigation
+                jcr:created="{Date}2018-02-07T15:15:10.255+11:00"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2018-02-08T02:08:10.051+11:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="helloworld/components/page/navigation"
+                topnavtitle="Cafe"/>
+            <responsivegrid
+                jcr:created="{Date}2018-02-07T15:15:44.919+11:00"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2018-02-07T15:15:44.919+11:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="wcm/foundation/components/responsivegrid"
+                editable="{Boolean}true">
+                <cq:responsive jcr:primaryType="nt:unstructured"/>
+                <heroimage
+                    jcr:created="{Date}2018-02-08T01:47:18.484+11:00"
+                    jcr:createdBy="admin"
+                    jcr:lastModified="{Date}2018-10-09T11:52:51.515+11:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="helloworld/components/content/hero"
+                    fileName="hitoshi-suzuki-1088047-unsplash.jpg"
+                    heading="Reservation">
+                    <file/>
+                </heroimage>
+                <reservation
+                    jcr:created="{Date}2018-02-07T16:07:56.826+11:00"
+                    jcr:createdBy="admin"
+                    jcr:lastModified="{Date}2018-02-07T16:11:32.542+11:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="helloworld/components/content/reservation"/>
+                <gmaps
+                    jcr:created="{Date}2018-10-09T12:57:09.057+11:00"
+                    jcr:createdBy="admin"
+                    jcr:lastModified="{Date}2018-10-09T12:57:09.057+11:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="helloworld/components/content/gmaps"/>
+            </responsivegrid>
+            <footer
+                jcr:created="{Date}2018-02-08T13:13:12.145+11:00"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2018-02-08T13:13:12.145+11:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="helloworld/components/page/footer"/>
+        </root>
+        <cq:responsive jcr:primaryType="nt:unstructured">
+            <breakpoints jcr:primaryType="nt:unstructured">
+                <phone
+                    jcr:primaryType="nt:unstructured"
+                    title="Small Screen"
+                    width="{Decimal}650"/>
+                <tablet
+                    jcr:primaryType="nt:unstructured"
+                    title="Large Screen"
+                    width="{Decimal}1200"/>
+            </breakpoints>
+        </cq:responsive>
+    </jcr:content>
+</jcr:root>

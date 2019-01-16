@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:designPath="/etc/designs/helloworld"
+        cq:lastModified="{Date}2018-10-10T09:26:58.484+11:00"
+        cq:lastModifiedBy="admin"
+        cq:template="/apps/helloworld/templates/landing-page-template"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Welcome"
+        sling:resourceType="helloworld/components/page/cafe-basepage">
+        <root
+            jcr:lastModified="{Date}2018-02-01T12:04:03.964+11:00"
+            jcr:lastModifiedBy="admin"
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="wcm/foundation/components/responsivegrid">
+            <navigation
+                jcr:created="{Date}2018-02-07T15:38:06.989+11:00"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2018-02-08T02:08:22.691+11:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="helloworld/components/page/navigation"
+                topnavtitle="Cafe"/>
+            <heroimage
+                jcr:created="{Date}2018-02-07T15:36:52.775+11:00"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2018-10-09T11:29:12.587+11:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="helloworld/components/content/hero"
+                description="Etiam posuere erat non suscipit molestie. Curabitur ante justo, sagittis et tempor ac, porttitor ut sem."
+                fileName="file.jpg"
+                heading="Cafe Demo Site">
+                <file/>
+            </heroimage>
+            <responsivegrid
+                jcr:created="{Date}2018-02-01T12:04:15.351+11:00"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2018-02-01T12:04:15.351+11:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="wcm/foundation/components/responsivegrid"
+                editable="{Boolean}true">
+                <cq:responsive jcr:primaryType="nt:unstructured"/>
+                <imagedescription
+                    jcr:created="{Date}2018-02-07T15:40:21.186+11:00"
+                    jcr:createdBy="admin"
+                    jcr:Heading="About Us"
+                    jcr:lastModified="{Date}2018-10-09T11:28:56.758+11:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="wcm/foundation/components/textimage"
+                    alignment="left"
+                    text="&lt;p style=&quot;text-align: left;&quot;>&amp;nbsp;&lt;/p>&#xa;&lt;p style=&quot;text-align: left;&quot;>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam quis nibh quis odio auctor gravida quis non tortor. Morbi varius metus at dui dictum faucibus. Sed et condimentum nibh. Duis blandit mattis mauris, in vehicula ante sodales id. Ut posuere condimentum sapien et molestie. Aliquam aliquet interdum nulla sit amet ullamcorper. Cras at mollis lorem. Donec commodo magna id elit tincidunt, pellentesque congue ex venenatis. Curabitur nec mattis metus. Quisque congue maximus ante. Suspendisse tempor eu elit eu ultricies. Proin ac eleifend mauris. Integer placerat nulla ullamcorper, aliquam mi vitae, pellentesque neque. Vestibulum scelerisque lectus quis diam lobortis, a tempus lectus pretium. Aenean ac finibus ligula.&lt;br>&#xa;&lt;/p>&#xa;"
+                    textIsRich="true">
+                    <image
+                        jcr:lastModified="{Date}2018-10-09T11:28:12.587+11:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="wcm/foundation/components/image"
+                        fileName="file.jpg"
+                        height="400"
+                        width="0">
+                        <file/>
+                    </image>
+                </imagedescription>
+                <heroimage
+                    jcr:created="{Date}2018-02-07T15:46:53.101+11:00"
+                    jcr:createdBy="admin"
+                    jcr:lastModified="{Date}2018-10-09T11:22:10.868+11:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="helloworld/components/content/hero"
+                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sagittis nisi ut erat venenatis tempus."
+                    fileName="file.jpg"
+                    heading="Lorem Ipsum">
+                    <file/>
+                </heroimage>
+                <imagedescription_575577880
+                    jcr:created="{Date}2018-02-07T16:02:17.806+11:00"
+                    jcr:createdBy="admin"
+                    jcr:Heading="OUR MENU"
+                    jcr:lastModified="{Date}2018-10-09T11:32:25.979+11:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="wcm/foundation/components/textimage"
+                    alignment="right"
+                    text="&lt;p>Nullam lobortis ipsum vitae metus iaculis auctor. Maecenas bibendum, quam at fringilla mollis, dolor justo eleifend tortor, at posuere augue dolor id odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin iaculis ultrices ante non rutrum. Nam accumsan, justo et sagittis rutrum, odio mauris varius metus, quis convallis nisl elit eu ex. Nam vitae pretium erat. Nulla facilisi. Morbi aliquam arcu sapien, eget bibendum risus vehicula ut. Suspendisse a molestie arcu, quis rutrum turpis. Praesent mi mauris, mollis eu rhoncus in, pretium et metus.&lt;br>&#xa;&lt;/p>&#xa;"
+                    textIsRich="true">
+                    <image
+                        jcr:lastModified="{Date}2018-10-09T11:32:25.979+11:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="wcm/foundation/components/image"
+                        fileName="file.jpg"
+                        height="400">
+                        <file/>
+                    </image>
+                </imagedescription_575577880>
+            </responsivegrid>
+            <footer
+                jcr:created="{Date}2018-01-31T17:20:03.799+11:00"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2018-01-31T17:20:03.799+11:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="helloworld/components/page/footer"/>
+        </root>
+        <cq:responsive jcr:primaryType="nt:unstructured">
+            <breakpoints jcr:primaryType="nt:unstructured">
+                <phone
+                    jcr:primaryType="nt:unstructured"
+                    title="Small Screen"
+                    width="{Decimal}650"/>
+                <tablet
+                    jcr:primaryType="nt:unstructured"
+                    title="Large Screen"
+                    width="{Decimal}1200"/>
+            </breakpoints>
+        </cq:responsive>
+    </jcr:content>
+</jcr:root>

@@ -1,0 +1,22 @@
+@import (once) "/etc/clientlibs/wcm/foundation/grid/grid_base.less";
+
+@max_col: 12; /* maximum amount of grid cells */
+
+/* default breakpoint */
+.aem-Grid {
+    .generate-grid(default, @max_col);
+}
+
+/* phone breakpoint */
+@media (max-width: 768px) {
+    .aem-Grid {
+        .generate-grid(phone, @max_col);
+    }
+}
+
+/* tablet breakpoint */
+@media (min-width: 769px) and (max-width: 1200px) {
+    .aem-Grid {
+        .generate-grid(tablet, @max_col);
+    }
+}
