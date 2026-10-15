@@ -7,7 +7,7 @@
 
     <groupId>com.shinesolutions</groupId>
     <artifactId>aem-helloworld</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.3-pre.0</version>
     <packaging>pom</packaging>
 
     <name>AEM Hello World - Reactor Project</name>
@@ -307,11 +307,6 @@
                             </goals>
                         </execution>
                     </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-release-plugin</artifactId>
-                    <version>2.5.3</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

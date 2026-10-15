@@ -1,82 +1,101 @@
-# Build and release aem-helloworld. Run inside the maven:3.9.11-eclipse-temurin-11 Docker image
-# (Java 11), with make installed, except release-test, which starts that image itself.
+# Build and release aem-helloworld.
+#   - Build, test and publish targets need Java 11: run them in JAVA_IMAGE, with make installed
+#   - release-major|minor|patch, release-status and release-drop run no Java: run them in
+#     aem-platform-buildenv, which has RTK
+#   - release-test runs on your machine and starts JAVA_IMAGE itself
 SHELL := /bin/bash
 MVN ?= mvn -B -ntp
+JAVA_IMAGE ?= maven:3.9.11-eclipse-temurin-11
+# Lets git run as root in a container on this repository, which is owned by your user
+GIT_SAFE_DIRECTORY := GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.directory GIT_CONFIG_VALUE_0=$(CURDIR)
 
-ci: clean deps lint install package
+# Clean, download dependencies, then build and install the bundle and content package
+ci: clean deps install
 
 clean:
-	mvn clean
+	$(MVN) clean
 
+# Download all dependencies into the local Maven repository
 deps:
-	mvn dependency:resolve
+	$(MVN) dependency:go-offline
 
-lint:
-	echo "TODO"
+# Build the bundle (bundle/target/aem-helloworld-bundle-<version>.jar) and the content package
+# (content/target/aem-helloworld-content-<version>.zip)
+build:
+	$(MVN) package
 
+# Build and install the artifacts into the local Maven repository
 install:
-	mvn install
+	$(MVN) install
 
-package:
-	mvn package
-
-# Release with maven-release-plugin. First moves the CHANGELOG.md `## [Unreleased]` entries under
-# `## [<version>] - <today>` and commits that, then commits the release version, tags it
-# aem-helloworld-<version> and commits the next -SNAPSHOT version. Nothing is pushed; review,
-# then run `git push --follow-tags`. Needs a clean working tree and entries under [Unreleased].
-#   release-patch: 0.0.3-SNAPSHOT -> 0.0.3, next 0.0.4-SNAPSHOT
-#   release-minor: 0.0.3-SNAPSHOT -> 0.1.0, next 0.1.1-SNAPSHOT
-#   release-major: 0.0.3-SNAPSHOT -> 1.0.0, next 1.0.1-SNAPSHOT
+# Release with RTK (https://github.com/cliffano/rtk), configured in .rtk.json. Sets the release version
+# in the pom.xml files and CHANGELOG.md (the `## [Unreleased]` entries are dated as the release) and
+# commits that, tags it aem-helloworld-<version>, then commits the next pre-release version and a new
+# empty `## [Unreleased]` section. Nothing is pushed; review, then run `git push --follow-tags`.
+# Needs a clean working tree and entries under [Unreleased].
+#   release-patch: 0.0.3-pre.0 -> 0.0.3, next 0.0.4-pre.0
+#   release-minor: 0.0.3-pre.0 -> 0.1.0, next 0.1.1-pre.0
+#   release-major: 0.0.3-pre.0 -> 1.0.0, next 1.0.1-pre.0
 define release
 	set -euo pipefail; \
-	export GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.directory GIT_CONFIG_VALUE_0=$(CURDIR); \
+	export $(GIT_SAFE_DIRECTORY); \
 	git diff --quiet && git diff --cached --quiet \
 	  || { echo "Commit or stash your changes before releasing"; exit 1; }; \
 	awk '/^## \[Unreleased\]$$/ { found = 1; next } /^## / { found = 0 } found && /^- / { n++ } \
 	  END { exit n ? 0 : 1 }' CHANGELOG.md \
 	  || { echo "CHANGELOG.md has no entries under ## [Unreleased]"; exit 1; }; \
-	current=$$($(MVN) -q help:evaluate -Dexpression=project.version -DforceStdout); \
-	IFS=. read -r major minor patch <<< "$${current%-SNAPSHOT}"; \
-	case "$(1)" in \
-	  major) release="$$((major + 1)).0.0" ;; \
-	  minor) release="$$major.$$((minor + 1)).0" ;; \
-	  patch) release="$$major.$$minor.$$patch" ;; \
-	esac; \
-	IFS=. read -r major minor patch <<< "$$release"; \
-	next="$$major.$$minor.$$((patch + 1))-SNAPSHOT"; \
-	echo "Releasing $$current as $$release, next development version $$next"; \
-	awk -v heading="## [$$release] - $$(date +%Y-%m-%d)" \
-	  '{ print } /^## \[Unreleased\]$$/ && !done { print ""; print heading; done = 1 }' \
-	  CHANGELOG.md > CHANGELOG.md.tmp && mv CHANGELOG.md.tmp CHANGELOG.md; \
-	git commit -q -m "Update CHANGELOG for $$release" CHANGELOG.md; \
-	$(MVN) release:prepare -DreleaseVersion="$$release" -DdevelopmentVersion="$$next" \
-	  -DpushChanges=false; \
-	$(MVN) release:clean
+	rtk release --release-increment-type $(1)
 endef
 
-# Release test, run on your machine (not in a container): starts RELEASE_IMAGE in Docker and uploads
-# the committed HEAD to Maven Central at a test version, VERSION or by default the current version
-# without -SNAPSHOT plus -rc.0 (0.0.3-SNAPSHOT -> 0.0.3-rc.0). The repository is mounted read-only and
-# built from a copy, and the Maven repository is cached in the M2_VOLUME Docker volume. The deployment
-# is never published (-DautoPublish=false): check it reaches VALIDATED, then drop it with
-# release-drop or in the Central Portal. Passes MAVEN_GPG_KEY, MAVEN_GPG_PASSPHRASE,
-# MAVEN_CENTRAL_USERNAME and MAVEN_CENTRAL_PASSWORD from your environment to the container.
-RELEASE_IMAGE ?= maven:3.9.11-eclipse-temurin-11
-M2_VOLUME ?= aem-helloworld-m2
+release-major:
+	@$(call release,major)
 
+release-minor:
+	@$(call release,minor)
+
+release-patch:
+	@$(call release,patch)
+
+# Upload test: sign the committed HEAD and upload it to the Central Portal as a pre-release test
+# version, never publishing it (-DautoPublish=false), then print the deployment ID to check with
+# release-status and drop with release-drop. Checks the GPG key, the Central token, the upload and
+# Central's validation. Only pre-release versions are accepted; a dropped version can be reused.
+#   make release-test RELEASE_TEST_VERSION=0.0.3-rc.1   (default: current release version with -rc.0)
+# Run release-test on your machine: it runs release-test-run in JAVA_IMAGE with Docker, with this
+# repository mounted read-only and MAVEN_GPG_KEY, MAVEN_GPG_PASSPHRASE, MAVEN_CENTRAL_USERNAME and
+# MAVEN_CENTRAL_PASSWORD passed through from your environment.
 release-test:
-	@docker run --rm -v "$(CURDIR)":/workspace:ro -v $(M2_VOLUME):/root/.m2 -w /workspace \
-	  -e GIT_CONFIG_COUNT=1 -e GIT_CONFIG_KEY_0=safe.directory -e GIT_CONFIG_VALUE_0=/workspace \
-	  -e VERSION="$(VERSION)" \
+	docker run --rm -v "$(CURDIR)":/workspace/aem-helloworld:ro -v aem-helloworld-m2:/root/.m2 \
+	  -w /workspace/aem-helloworld \
 	  -e MAVEN_GPG_KEY -e MAVEN_GPG_PASSPHRASE -e MAVEN_CENTRAL_USERNAME -e MAVEN_CENTRAL_PASSWORD \
-	  $(RELEASE_IMAGE) bash -c '\
-	    set -euo pipefail; \
-	    work=$$(mktemp -d); git archive HEAD | tar -x -C "$$work"; cd "$$work"; \
-	    current=$$($(MVN) -q help:evaluate -Dexpression=project.version -DforceStdout); \
-	    version="$${VERSION:-$${current%-SNAPSHOT}-rc.0}"; \
-	    echo "Uploading HEAD to Maven Central as $$version (not published; drop it when done)"; \
-	    $(MVN) -q versions:set -DnewVersion="$$version" -DgenerateBackupPoms=false; \
-	    $(MVN) -Prelease deploy -DskipTests -Dgpg.signer=bc -DautoPublish=false'
+	  $(JAVA_IMAGE) bash -c "apt-get update -qq && apt-get install -y -qq make >/dev/null \
+	    && make release-test-run RELEASE_TEST_VERSION=$(RELEASE_TEST_VERSION)"
+
+# Builds in a temporary copy of the committed HEAD, so the pom.xml files are untouched
+release-test-run:
+	@set -euo pipefail; \
+	work=$$(mktemp -d); trap 'rm -rf "$$work"' EXIT; \
+	$(GIT_SAFE_DIRECTORY) git archive HEAD | tar -x -C "$$work"; \
+	cd "$$work"; \
+	current=$$($(MVN) -q help:evaluate -Dexpression=project.version -DforceStdout); \
+	version="$(RELEASE_TEST_VERSION)"; \
+	[[ -n "$$version" ]] || version="$${current%%-*}-rc.0"; \
+	[[ "$$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+-[0-9A-Za-z.-]+$$ && "$$version" != *SNAPSHOT* ]] \
+	  || { echo "release-test only uploads pre-release versions such as 0.0.3-rc.0, not $$version"; exit 1; }; \
+	echo "Uploading HEAD to the Central Portal as $$version (it is not published)"; \
+	$(MVN) -q versions:set -DnewVersion="$$version" -DgenerateBackupPoms=false; \
+	$(MVN) -Prelease deploy -DskipTests -Dgpg.signer=bc -DautoPublish=false | tee deploy.log; \
+	id=$$(sed -n 's/.*deploymentId: \([0-9a-f-]*\).*/\1/p' deploy.log | tail -1); \
+	echo "Deployment $$id ($$version) is validated and not published. Check and drop it with:"; \
+	echo "  make release-status DEPLOYMENT_ID=$$id"; \
+	echo "  make release-drop DEPLOYMENT_ID=$$id"
+
+# Upload the checked-out release version to the Central Portal, run by the publish workflow on a pushed
+# aem-helloworld-<version> tag. Signs with MAVEN_GPG_KEY and MAVEN_GPG_PASSPHRASE and uploads with
+# MAVEN_CENTRAL_USERNAME and MAVEN_CENTRAL_PASSWORD. Waits until Central has validated the upload,
+# which then waits for Publish or Drop in the Central Portal.
+publish:
+	$(MVN) -Prelease deploy -DskipTests -Dgpg.signer=bc
 
 # Central Portal deployments (`mvn -Prelease deploy` prints the deployment ID). Uses the user token in
 # MAVEN_CENTRAL_USERNAME and MAVEN_CENTRAL_PASSWORD; the Authorization header is passed to curl on
@@ -100,14 +119,5 @@ release-status:
 release-drop:
 	@$(call central_api,DELETE,deployment/$(DEPLOYMENT_ID))
 
-release-major:
-	@$(call release,major)
-
-release-minor:
-	@$(call release,minor)
-
-release-patch:
-	@$(call release,patch)
-
-
-.PHONY: ci clean deps lint install package release-test release-status release-drop release-major release-minor release-patch
+.PHONY: ci clean deps build install release-major release-minor release-patch \
+	release-test release-test-run publish release-status release-drop
