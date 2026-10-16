@@ -19,7 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Development versions are now pre-release versions such as `0.0.3-pre.0` instead of `-SNAPSHOT`
 - Replaced Travis CI with GitHub Actions [#8]
 - Upgraded junit from 4.11 to 4.13.1 [#9]
-- Locked the CI aem-platform-buildenv image to 3.2.0
+- CI now runs `make ci` with Java 11 in the maven:3.9.11-eclipse-temurin-11 Docker image, through cliffano/command-docker-action
+- Simplify CI workflow to not use action files anymore
 - Restructured README into Installation, Usage, Result Model, Error Handling, Testing and Versions History
 
 ### Fixed

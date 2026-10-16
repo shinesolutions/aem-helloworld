@@ -3,7 +3,14 @@ name: CI
 on: [push, pull_request, workflow_dispatch]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
-    - uses: actions/checkout@v1
-    - uses: ./.github/actions/ci-action
+      - uses: actions/checkout@v7
+      - uses: cliffano/command-docker-action@v2.1.0
+        with:
+          # Java 11, as the project requires
+          command: |
+            apt-get update -qq && apt-get install -y -qq make
+            make ci
+          image: maven:3.9.11-eclipse-temurin-11
+          shell: bash
