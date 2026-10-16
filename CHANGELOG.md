@@ -11,15 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Release Major/Minor/Patch GitHub workflows, and a Publish to Maven Central workflow that runs `make publish` on a pushed release tag with the Maven Central and GPG secrets
 
 ### Changed
-- Builds and publishes with Java 11 in the maven:3.9.11-eclipse-temurin-11 Docker image
+- Builds, publishes and releases in aem-platform-buildenv 6.3.0, with its Java 11
 - Publish to Maven Central through the Central Portal (central-publishing-maven-plugin) instead of the retired OSSRH
 - Maven Central deployments wait for a manual Publish or Drop in the Central Portal, use `-DautoPublish=true` to publish automatically
 - Artifact signing now runs in the `release` Maven profile, replacing `sign-artifacts`, with maven-gpg-plugin 3.2.8
-- Releases are now made with RTK, by `make release-major|minor|patch` in aem-platform-buildenv or the Release Major/Minor/Patch GitHub workflows, replacing maven-release-plugin
+- Releases are now made with RTK, by `make release-major|minor|patch` or the Release Major/Minor/Patch GitHub workflows, replacing maven-release-plugin
 - Development versions are now pre-release versions such as `0.0.3-pre.0` instead of `-SNAPSHOT`
 - Replaced Travis CI with GitHub Actions [#8]
 - Upgraded junit from 4.11 to 4.13.1 [#9]
-- CI now runs `make ci` with Java 11 in the maven:3.9.11-eclipse-temurin-11 Docker image, through cliffano/command-docker-action
+- CI now runs `make ci` in aem-platform-buildenv 6.3.0, through cliffano/command-docker-action
 - Simplify CI workflow to not use action files anymore
 - Restructured README into Installation, Usage, Result Model, Error Handling, Testing and Versions History
 

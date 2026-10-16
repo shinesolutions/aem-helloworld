@@ -1,11 +1,7 @@
 # Build and release aem-helloworld.
-#   - Build, test and publish targets need Java 11: run them in JAVA_IMAGE, with make installed
-#   - release-major|minor|patch, release-status and release-drop run no Java: run them in
-#     aem-platform-buildenv, which has RTK
-#   - release-test runs on your machine and starts JAVA_IMAGE itself
+#   - Build, test and publish targets need Java 11 and Maven; release-major|minor|patch need RTK
 SHELL := /bin/bash
 MVN ?= mvn -B -ntp
-JAVA_IMAGE ?= maven:3.9.11-eclipse-temurin-11
 # Lets git run as root in a container on this repository, which is owned by your user
 GIT_SAFE_DIRECTORY := GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.directory GIT_CONFIG_VALUE_0=$(CURDIR)
 
@@ -61,18 +57,10 @@ release-patch:
 # release-status and drop with release-drop. Checks the GPG key, the Central token, the upload and
 # Central's validation. Only pre-release versions are accepted; a dropped version can be reused.
 #   make release-test RELEASE_TEST_VERSION=0.0.3-rc.1   (default: current release version with -rc.0)
-# Run release-test on your machine: it runs release-test-run in JAVA_IMAGE with Docker, with this
-# repository mounted read-only and MAVEN_GPG_KEY, MAVEN_GPG_PASSPHRASE, MAVEN_CENTRAL_USERNAME and
-# MAVEN_CENTRAL_PASSWORD passed through from your environment.
+# Builds in a temporary copy of the committed HEAD, so the pom.xml files are untouched. Signs with
+# MAVEN_GPG_KEY and MAVEN_GPG_PASSPHRASE and uploads with MAVEN_CENTRAL_USERNAME and
+# MAVEN_CENTRAL_PASSWORD.
 release-test:
-	docker run --rm -v "$(CURDIR)":/workspace/aem-helloworld:ro -v aem-helloworld-m2:/root/.m2 \
-	  -w /workspace/aem-helloworld \
-	  -e MAVEN_GPG_KEY -e MAVEN_GPG_PASSPHRASE -e MAVEN_CENTRAL_USERNAME -e MAVEN_CENTRAL_PASSWORD \
-	  $(JAVA_IMAGE) bash -c "apt-get update -qq && apt-get install -y -qq make >/dev/null \
-	    && make release-test-run RELEASE_TEST_VERSION=$(RELEASE_TEST_VERSION)"
-
-# Builds in a temporary copy of the committed HEAD, so the pom.xml files are untouched
-release-test-run:
 	@set -euo pipefail; \
 	work=$$(mktemp -d); trap 'rm -rf "$$work"' EXIT; \
 	$(GIT_SAFE_DIRECTORY) git archive HEAD | tar -x -C "$$work"; \
@@ -120,4 +108,4 @@ release-drop:
 	@$(call central_api,DELETE,deployment/$(DEPLOYMENT_ID))
 
 .PHONY: ci clean deps build install release-major release-minor release-patch \
-	release-test release-test-run publish release-status release-drop
+	release-test publish release-status release-drop

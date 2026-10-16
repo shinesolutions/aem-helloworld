@@ -19,18 +19,21 @@ Learn more about AEM Hello World:
 
 ### Requirements
 
-This project requires Java 11 and Apache Maven. Run the build `make` targets inside the
-`maven:3.9.11-eclipse-temurin-11` Docker image, started from the directory above this repository,
-with `make` installed. It marks the mounted repository as safe for git (it is owned by your user, not
-root):
+This project requires Java 11 and Apache Maven. Run the `make` targets inside the
+`shinesolutions/aem-platform-buildenv:6.3.0` Docker image, which has Java 11, Maven and RTK, started
+from the directory above this repository. The image's default Java is 21, so this sets `JAVA_HOME`
+to its Java 11 in `/usr/lib/jvm/java-11`. It also passes the release variables through by name and
+your git identity for the release commits, and marks the mounted repository as safe for git (it is
+owned by your user, not root):
 
 ```
 $ docker run --rm -it -v "$(pwd)":/workspace -w /workspace/aem-helloworld \
-    -v aem-helloworld-m2:/root/.m2 \
+    -v aem-helloworld-m2:/root/.m2 -v ~/.gitconfig:/root/.gitconfig:ro \
     -e GIT_CONFIG_COUNT=1 -e GIT_CONFIG_KEY_0=safe.directory \
     -e GIT_CONFIG_VALUE_0=/workspace/aem-helloworld \
-    maven:3.9.11-eclipse-temurin-11 \
-    bash -c 'apt-get update -qq && apt-get install -y -qq make >/dev/null && exec bash'
+    -e JAVA_HOME=/usr/lib/jvm/java-11 \
+    -e MAVEN_GPG_KEY -e MAVEN_GPG_PASSPHRASE -e MAVEN_CENTRAL_USERNAME -e MAVEN_CENTRAL_PASSWORD \
+    shinesolutions/aem-platform-buildenv:6.3.0 bash
 ```
 
 ### Download
@@ -141,7 +144,7 @@ the release version in the `pom.xml` files and CHANGELOG.md, commits and tags it
 
 | Target | Description |
 |---|---|
-| `make release-test RELEASE_TEST_VERSION=<x.y.z-rc.n>` | Run on your machine: in `maven:3.9.11-eclipse-temurin-11` (Docker), sign `HEAD` and upload it to the Maven Central Portal as a pre-release test version without publishing it, then print the deployment ID for `release-status` and `release-drop`. Only pre-release versions are accepted (default: current release version with `-rc.0`) |
+| `make release-test RELEASE_TEST_VERSION=<x.y.z-rc.n>` | Sign `HEAD` and upload it to the Maven Central Portal as a pre-release test version without publishing it, then print the deployment ID for `release-status` and `release-drop`. Only pre-release versions are accepted (default: current release version with `-rc.0`) |
 | `make release-status DEPLOYMENT_ID=<id>` | Show a Maven Central Portal deployment's state (e.g. `VALIDATED`, `PUBLISHED`, `FAILED`) and errors, using `MAVEN_CENTRAL_USERNAME` and `MAVEN_CENTRAL_PASSWORD` |
 | `make release-drop DEPLOYMENT_ID=<id>` | Drop (delete) a Maven Central Portal deployment that has not been published |
 | `make publish` | Sign the checked-out version and upload it to the Maven Central Portal, then wait until it is validated. Run by the **Publish to Maven Central** workflow on a pushed `aem-helloworld-<version>` tag |
@@ -168,35 +171,18 @@ the release version in the `pom.xml` files and CHANGELOG.md, commits and tags it
   Check the key arrived complete without printing it: `printf '%s\n' "$MAVEN_GPG_KEY" | head -1` and
   `| tail -1` should show the BEGIN and END lines.
 
-`make release-test` runs on your machine and starts the Java 11 image itself. Run `make publish` in
-the `maven:3.9.11-eclipse-temurin-11` container from [Requirements](#requirements), with the
-variables passed through (`-e MAVEN_GPG_KEY -e MAVEN_GPG_PASSPHRASE -e MAVEN_CENTRAL_USERNAME
--e MAVEN_CENTRAL_PASSWORD`).
-
-The other release targets run no Java. Run them in aem-platform-buildenv, which has RTK, started from
-the directory above this repository. It passes the variables through by name, your git identity for
-the release commits, and marks the mounted repository as safe for git (it is owned by your user, not
-root):
-
-```
-$ docker run --rm -it -v "$(pwd)":/workspace -w /workspace/aem-helloworld \
-    -v ~/.gitconfig:/root/.gitconfig:ro \
-    -e GIT_CONFIG_COUNT=1 -e GIT_CONFIG_KEY_0=safe.directory \
-    -e GIT_CONFIG_VALUE_0=/workspace/aem-helloworld \
-    -e MAVEN_CENTRAL_USERNAME -e MAVEN_CENTRAL_PASSWORD \
-    shinesolutions/aem-platform-buildenv:6.2.1 bash
-```
+Run the release targets in the aem-platform-buildenv container from [Requirements](#requirements),
+started after you set the variables so they are passed through.
 
 ### Release steps
 1. Start from an up-to-date `master` with a green CI build and a clean working tree. Check that the
    `## [Unreleased]` entries in CHANGELOG.md describe everything in this release.
-2. Check signing and Maven Central validation with a test upload of `HEAD`, from this repository on
-   your machine:
+2. Check signing and Maven Central validation with a test upload of `HEAD`, in aem-platform-buildenv:
    ```
    $ make release-test
    ```
-   Then drop the test deployment with `make release-drop DEPLOYMENT_ID=<id>` in aem-platform-buildenv,
-   or **Drop** in the Central Portal.
+   Then drop the test deployment with `make release-drop DEPLOYMENT_ID=<id>`, or **Drop** in the
+   Central Portal.
 3. Create the release, either:
    - In GitHub Actions, run the **Release Major**, **Release Minor** or **Release Patch** workflow.
      It runs RTK and pushes the commits and the tag. Then `git pull --tags` to fetch them.
@@ -213,10 +199,10 @@ $ docker run --rm -it -v "$(pwd)":/workspace -w /workspace/aem-helloworld \
    $ git push --follow-tags
    ```
 5. Upload the tagged version to Maven Central. The pushed tag triggers the **Publish to Maven
-   Central** workflow, which runs `make publish` in `maven:3.9.11-eclipse-temurin-11` with the
+   Central** workflow, which runs `make publish` in aem-platform-buildenv with the
    `SHINEOPENSOURCE_MAVEN_CENTRAL_USERNAME`, `SHINEOPENSOURCE_MAVEN_CENTRAL_PASSWORD`,
    `SHINEOPENSOURCE_MAVEN_GPG_KEY` and `SHINEOPENSOURCE_MAVEN_GPG_PASSPHRASE` GitHub secrets. To
-   upload it yourself instead, in the Java 11 container:
+   upload it yourself instead, in aem-platform-buildenv:
    ```
    $ git checkout aem-helloworld-<version>
    $ make publish

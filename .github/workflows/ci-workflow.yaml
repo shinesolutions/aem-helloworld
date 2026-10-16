@@ -8,9 +8,10 @@ jobs:
       - uses: actions/checkout@v7
       - uses: cliffano/command-docker-action@v2.1.0
         with:
-          # Java 11, as the project requires
           command: |
-            apt-get update -qq && apt-get install -y -qq make
+            mvn --version
             make ci
-          image: maven:3.9.11-eclipse-temurin-11
+          image: shinesolutions/aem-platform-buildenv:6.3.0
           shell: bash
+          # Java 11, as the project requires; aem-platform-buildenv defaults to Java 21
+          extra_args: -e JAVA_HOME=/usr/lib/jvm/java-11

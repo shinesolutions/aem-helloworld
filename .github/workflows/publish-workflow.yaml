@@ -9,11 +9,13 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-26.04
-    # Java 11, as the project requires
-    container: maven:3.9.11-eclipse-temurin-11
+    container:
+      image: shinesolutions/aem-platform-buildenv:6.3.0
+      env:
+        # Java 11, as the project requires; aem-platform-buildenv defaults to Java 21
+        JAVA_HOME: /usr/lib/jvm/java-11
     steps:
       - uses: actions/checkout@v7
-      - run: apt-get update -qq && apt-get install -y -qq make
       - env:
           MAVEN_CENTRAL_USERNAME: ${{ secrets.SHINEOPENSOURCE_MAVEN_CENTRAL_USERNAME }}
           MAVEN_CENTRAL_PASSWORD: ${{ secrets.SHINEOPENSOURCE_MAVEN_CENTRAL_PASSWORD }}
