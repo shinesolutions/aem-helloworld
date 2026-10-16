@@ -55,21 +55,23 @@ release-patch:
 # Upload test: sign the committed HEAD and upload it to the Central Portal as a pre-release test
 # version, never publishing it (-DautoPublish=false), then print the deployment ID to check with
 # release-status and drop with release-drop. Checks the GPG key, the Central token, the upload and
-# Central's validation. Only pre-release versions are accepted; a dropped version can be reused.
-#   make release-test RELEASE_TEST_VERSION=0.0.3-rc.1   (default: current release version with -rc.0)
+# Central's validation. Uploads the current release version with -rc.0 (e.g. 0.0.3-pre.0 -> 0.0.3-rc.0),
+# which can be uploaded again once dropped.
 # Builds in a temporary copy of the committed HEAD, so the pom.xml files are untouched. Signs with
 # MAVEN_GPG_KEY and MAVEN_GPG_PASSPHRASE and uploads with MAVEN_CENTRAL_USERNAME and
 # MAVEN_CENTRAL_PASSWORD.
+# For example, in aem-platform-buildenv with Docker, with this repository mounted read-only and Java 11:
+#   docker run --rm -v "$(pwd)":/workspace/aem-helloworld:ro -w /workspace/aem-helloworld \
+#     -e JAVA_HOME=/usr/lib/jvm/java-11 \
+#     -e MAVEN_GPG_KEY -e MAVEN_GPG_PASSPHRASE -e MAVEN_CENTRAL_USERNAME -e MAVEN_CENTRAL_PASSWORD \
+#     shinesolutions/aem-platform-buildenv:6.3.0 make release-test
 release-test:
 	@set -euo pipefail; \
 	work=$$(mktemp -d); trap 'rm -rf "$$work"' EXIT; \
 	$(GIT_SAFE_DIRECTORY) git archive HEAD | tar -x -C "$$work"; \
 	cd "$$work"; \
 	current=$$($(MVN) -q help:evaluate -Dexpression=project.version -DforceStdout); \
-	version="$(RELEASE_TEST_VERSION)"; \
-	[[ -n "$$version" ]] || version="$${current%%-*}-rc.0"; \
-	[[ "$$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+-[0-9A-Za-z.-]+$$ && "$$version" != *SNAPSHOT* ]] \
-	  || { echo "release-test only uploads pre-release versions such as 0.0.3-rc.0, not $$version"; exit 1; }; \
+	version="$${current%%-*}-rc.0"; \
 	echo "Uploading HEAD to the Central Portal as $$version (it is not published)"; \
 	$(MVN) -q versions:set -DnewVersion="$$version" -DgenerateBackupPoms=false; \
 	$(MVN) -Prelease deploy -DskipTests -Dgpg.signer=bc -DautoPublish=false | tee deploy.log; \
