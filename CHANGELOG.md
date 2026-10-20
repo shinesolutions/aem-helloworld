@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
 ## [1.0.0] - 2026-10-20
 ### Added
 - Added Makefile targets for ci, clean, deps, build, install, release-test, publish, release-status, release-drop and release-major/minor/patch
@@ -50,6 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#8]: https://github.com/shinesolutions/aem-helloworld/issues/8
 [#9]: https://github.com/shinesolutions/aem-helloworld/issues/9
 
+[Unreleased]: https://github.com/shinesolutions/aem-helloworld/compare/aem-helloworld-1.0.0...HEAD
 [1.0.0]: https://github.com/shinesolutions/aem-helloworld/compare/aem-helloworld-0.0.2...aem-helloworld-1.0.0
 [0.0.2]: https://github.com/shinesolutions/aem-helloworld/compare/aem-helloworld-0.0.1...aem-helloworld-0.0.2
 [0.0.1]: https://github.com/shinesolutions/aem-helloworld/releases/tag/aem-helloworld-0.0.1
