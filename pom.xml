@@ -7,7 +7,7 @@
 
     <groupId>com.shinesolutions</groupId>
     <artifactId>aem-helloworld</artifactId>
-    <version>0.0.3-pre.0</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <name>AEM Hello World - Reactor Project</name>
