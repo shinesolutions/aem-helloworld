@@ -25,8 +25,9 @@ jobs:
       matrix:
         # The CodeQL-supported languages in this repo, plus `actions` to scan
         # the GitHub Actions workflows (Puppet, Shell and Groovy are not
-        # supported by CodeQL)
-        language: ['java-kotlin', 'javascript-typescript', 'actions']
+        # supported by CodeQL; the only JavaScript is the minified Bootstrap
+        # library, which CodeQL skips, so it has none to analyse)
+        language: ['java-kotlin', 'actions']
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
