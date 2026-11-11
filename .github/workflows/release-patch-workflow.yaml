@@ -1,6 +1,10 @@
 ---
 name: Release Patch
 on: [workflow_dispatch]
+# Least-privilege GITHUB_TOKEN (CodeQL actions/missing-workflow-permissions);
+# release-action checks out and pushes with the PAT passed as github_token
+permissions:
+  contents: read
 jobs:
   build:
     runs-on: ubuntu-26.04
