@@ -1,4 +1,5 @@
 [![Build Status](https://github.com/shinesolutions/aem-helloworld/workflows/CI/badge.svg)](https://github.com/shinesolutions/aem-helloworld/actions?query=workflow%3ACI)
+[![Code Scanning Status](https://github.com/shinesolutions/aem-helloworld/workflows/CodeQL/badge.svg)](https://github.com/shinesolutions/aem-helloworld/actions?query=workflow%3ACodeQL)
 [![Known Vulnerabilities](https://snyk.io/test/github/shinesolutions/aem-helloworld/badge.svg)](https://snyk.io/test/github/shinesolutions/aem-helloworld)
 
 # AEM Hello World
